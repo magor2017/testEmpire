@@ -16,7 +16,7 @@
   <div class="form-group">
     <p *ngIf="forfaitError" class="alert alert-danger">Veuillez choisir un forfait</p>
     <label style="color:white">Forfait :</label>
-    <select class="form-control" [(ngModel)]="forfait" name="forfait">
+    <select class="form-control" [(ngModel)]="forfait" (change)="forfaitError=false" name="forfait">
       <option value="0">--Veuillez choisir un forfait--</option>
       <option value="1">forfait 1 mois 1000</option>
       <option value="2">forfait 6 mois 3000</option>
@@ -64,11 +64,11 @@
             <form>
               <div class="form-group">
                 <label><b>Téléphone</b></label>
-                <input type="text" class="form-control" />
+                <input [(ngModel)]="tel2" name="tel2" type="text" class="form-control" />
               </div>
               <div class="form-group">
                   <label><b>Code Autorisation</b></label>
-                  <input type="text" class="form-control" />
+                  <input [(ngModel)]="code" name="code" type="text" class="form-control" />
                 </div>
             </form>
             <p>Pour obtenir un code d'autorisation composer ou cliquez #144#391#</p>
@@ -79,14 +79,17 @@
           <div *ngSwitchDefault class="spinner-border" role="status">
               <span class="sr-only">Loading...</span>
           </div> 
+          <div *ngSwitchCase="3">
+            <p class="alert alert-success">Votre forfait a ete active avec success.</p>
+          </div>
 
     </div>
   </div>
   <div style="text-align:center" class="modal-footer">
     <div id="button" style="width:90%;margin-left: auto;margin-right: auto">
         <label (click)="close()"  style="background-color:red;margin-right:10px" >Annuler</label>
-        <label *ngIf="val==1" style="background-color:green;" (click)="c('Save click')">Suivant</label>
-        <label *ngIf="val==2" style="background-color:green;" (click)="c('Save click')">Valider</label>
+        <label *ngIf="val==1" style="background-color:green;" >Suivant</label>
+        <label *ngIf="val==2" style="background-color:green;" (click)="paiement(token,tel2,code,ref)">Valider</label>
     </div>
    
   </div>

@@ -19,12 +19,22 @@ export class PaiementService {
     return new Promise((resolve,reject)=>{
       this.http.post(this.link+"/client/paiement",params,this.httpOption).subscribe(rep=>{
         console.log(rep)
-        if(rep["success"]===1){
+        let re=rep["rep"];
+        if(re["success"]===1){
           resolve(rep);
         }else{
           reject(rep);
         }
       })
     });
+  }
+  paiement(token:string,tel:string,code:string,ref:string){
+    let params="param="+JSON.stringify({token:token,tel:tel,code:code,ref:ref});
+    return new Promise((resolve,reject)=>{
+      this.http.post(this.link+"/api/paiement",params,this.httpOption).subscribe(rep =>{
+        console.log(rep);
+        resolve(rep);
+      })
+    })
   }
 }

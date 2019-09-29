@@ -19,6 +19,10 @@ export class AppComponent {
   animal: string;
   name: string;
   val:string;
+  token:string=undefined;
+  code:string;
+  tel2:string;
+  ref:string;
   constructor(config: NgbModalConfig, private modalService: NgbModal,private paiementService:PaiementService){
     config.backdrop = 'static';
     config.keyboard = false;
@@ -47,11 +51,28 @@ export class AppComponent {
   }
   ];
   open(content) {
-    if(this.verif_tel(this.tel)){
+    if(this.verif_tel(this.tel) && this.forfait!=="0"){
       this.modalService.open(content);
       this.paiementService.getToken(779013878,1).then(rep =>{
-        this.val="1";
-        console.log(rep);
+        if(rep["rep"]["success"]==1){
+          this.val="1";
+          this.token=rep["rep"]["token"];
+          this.ref=rep["f"]["ref_command"]
+          console.log(this.ref);
+          console.log(rep);
+        }
+      })
+    }else{
+      if(this.forfait==="0"){
+        this.forfaitError=true;
+      }
+    }
+  }
+  paiement(token,tel,code,ref){
+    if(tel!=="" && tel!==undefined && code!=="" && code!=undefined){
+      this.paiementService.paiement(token,tel,code,ref).then(rep=>{
+        this.val="3";
+        console.log(rep)
       })
     }
   }
